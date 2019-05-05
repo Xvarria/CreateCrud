@@ -1,0 +1,16 @@
+${entityName}List = Lista de ${entityName}es.
+${entityName}Form = Formulario de ${entityName}es.
+
+${entityName}.error.noExiste = Error ${entityName} no existe.
+
+${entityName}.error.eliminar = Error al eliminar ${entityName}.
+${entityName}.error.crear = Error al crear ${entityName}.
+${entityName}.error.actualizar = Error al actualizar ${entityName}.
+
+${entityName}.success.eliminar = Medidor eliminado exitosamente.
+${entityName}.success.crear = Medidor creado exitosamente.
+${entityName}.success.actualizae = Medidor actualizado exitosamente.
+
+${entityName}.error.param = Error: par\u00E1metro inv\u00E1lido para buscar ${entityName}.
+${entityName}.error.notFound = Error: ${entityName} no encontrado para el par\u00E1metro indicado.
+${entityName}.error.get= Error al obtener ${entityName}.

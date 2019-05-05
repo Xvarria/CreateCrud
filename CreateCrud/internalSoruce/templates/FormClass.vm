@@ -1,0 +1,16 @@
+package ${basePackage}.form;
+
+import ${basePackage}.model.${EntityName};
+
+public class ${EntityName}Form extends BaseForm {
+	
+	//TODO add properties and methods
+
+	//If required overwrite this methods
+	public ${EntityName} get${EntityName} (){
+		return null;
+	}
+	
+	public void set${EntityName} (${EntityName} ${entityName}){
+	}
+}

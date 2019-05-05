@@ -1,0 +1,50 @@
+package ${basePackage}.service;
+
+import java.util.List;
+
+import ${basePackage}.model.${EntityName};
+import ${basePackage}.model.exception.${ExceptionClass};
+
+/**
+ * @author mchavarria
+ *
+ */
+public interface ${EntityName}BO {
+	
+	/**
+	 * Crea un nuevo registro de ${entityName} en la base de datos
+	 * @param ${entityName}
+	 * @throws ${ExceptionClass}
+	 */
+	public void save(${EntityName} ${entityName}) throws ${ExceptionClass};
+	
+	/**
+	 * Actualiza el objeto ${entityName} en la base de datos
+	 * @param ${entityName}
+	 * @throws ${ExceptionClass}
+	 */
+	public void update(${EntityName} ${entityName}) throws ${ExceptionClass};
+	
+	/**
+	 * Elimina el objeto ${entityName} de la base de datos
+	 * @param ${entityName}
+	 * @throws ${ExceptionClass}
+	 */
+	public void delete(${EntityName} ${entityName}) throws ${ExceptionClass};
+	
+	/**
+	 * Obtiene ${entityName} por Id
+	 *  	 
+	 * @param id
+	 * @return
+	 * @throws ${ExceptionClass}
+	 */
+	public ${EntityName} get${EntityName}ById(int ${entityName}Id) throws ${ExceptionClass};
+	
+	/**
+	 * Obtiene la lista de ${entityName} de la base de datos
+	 * @return
+	 * @throws ${ExceptionClass}
+	 */
+	public List<${EntityName}> list${EntityName}() throws ${ExceptionClass};
+}

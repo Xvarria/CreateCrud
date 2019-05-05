@@ -1,0 +1,16 @@
+	public final static String VIEW_${ENTITY_NAME}_LISTAR = "${entityName}List";
+	public static final String VIEW_${ENTITY_NAME}_FORM = "${entityName}Form";
+
+    public final static String GENERAL_ERROR_PARAM_NO_${ENTITY_NAME} = "general.error.param.no${EntityName}";
+
+    public final static String ${ENTITY_NAME}_ERROR_ELIMINAR = "${entityName}.error.eliminar";
+    public final static String ${ENTITY_NAME}_ERROR_CREAR = "${entityName}.error.crear";
+    public final static String ${ENTITY_NAME}_ERROR_ACTUALIZAR = "${entityName}.error.actualizar";
+
+    public final static String ${ENTITY_NAME}_SUCCESS_ELIMINAR = "${entityName}.success.eliminar";
+    public final static String ${ENTITY_NAME}_SUCCESS_CREATE = "${entityName}.success.create";
+    public final static String ${ENTITY_NAME}_SUCCESS_ACTUALIZAR = "${entityName}.success.actualizar";
+
+    public final static String ${ENTITY_NAME}_ERROR_PARAM = "${entityName}.error.param";
+    public final static String ${ENTITY_NAME}_ERROR_NOT_FOUND = "${entityName}.error.notFound";
+    public final static String ${ENTITY_NAME}_ERROR_GET = "${entityName}.error.get";

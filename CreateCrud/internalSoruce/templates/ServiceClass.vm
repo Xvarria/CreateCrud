@@ -1,0 +1,68 @@
+/**
+ * 
+ */
+package com.gea.web.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.gea.web.dao.${EntityName}DAO;
+import com.gea.web.model.${EntityName};
+import com.gea.web.model.exception.GeaWebException;
+import com.gea.web.service.${EntityName}BO;
+
+/**
+ * @author mchavarria
+ *
+ */
+@Transactional("")
+@Service
+public class ${EntityName}BOImpl implements ${EntityName}BO {
+
+	@Autowired
+	private ${EntityName}DAO ${entityName}DAO;
+	
+	/**
+	 * @see com.gea.web.service.${EntityName}BO{s}save(com.gea.web.model.${EntityName})
+	 */
+	@Override
+	public void save(${EntityName} ${entityName}) throws GeaWebException {
+		this.${entityName}DAO.save(${entityName});
+	}
+
+	/**
+	 * @see com.gea.web.service.${EntityName}BO{s}update(com.gea.web.model.${EntityName})
+	 */
+	@Override
+	public void update(${EntityName} ${entityName}) throws GeaWebException {
+		this.${entityName}DAO.update(${entityName});
+	}
+
+	/**
+	 * @see com.gea.web.service.${EntityName}BO{s}delete(com.gea.web.model.${EntityName})
+	 */
+	@Override
+	public void delete(${EntityName} ${entityName}) throws GeaWebException {
+		this.${entityName}DAO.delete(${entityName});
+	}
+
+	/**
+	 * @see com.gea.web.service.${EntityName}BO{s}get${EntityName}ById(int)
+	 */
+	@Override
+	public ${EntityName} get${EntityName}ById(int ${entityName}Id) throws GeaWebException {
+		return this.${entityName}DAO.get${EntityName}ById(${entityName}Id);
+	}
+
+	/**
+	 * @see com.gea.web.service.${EntityName}BO{s}list${EntityName}()
+	 */
+	@Override
+	public List<${EntityName}> list${EntityName}() throws GeaWebException {
+		return this.${entityName}DAO.list${EntityName}();
+	}
+
+}

@@ -1,0 +1,57 @@
+package ${basePackage}.validator;
+
+import static ${basePackage}.model.${constantName}.*;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
+
+import com.vicr.util.logging.Log;
+import com.vicr.util.logging.LogFactory;
+
+import ${basePackage}.form.${EntityName}Form;
+import ${basePackage}.model.${EntityName};
+import ${basePackage}.service.${EntityName}BO;
+import .*;
+
+@Component
+public class ${EntityName}Validator implements Validator {
+
+	//TODO remove this definition point to Constants values
+	static final String FIELD_NAME = "fieldName";
+	static final String ERROR_KEY = "error.key";
+	static final String ERROR_KEY_VALIDATION = "error.key.validation";
+
+	@Autowired
+	private ${EntityName}BO ${entityName}BO;
+	
+	@SuppressWarnings("rawtypes")
+	public boolean supports(Class clazz) {
+		 return ${EntityName}Form.class.isAssignableFrom(clazz);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.validation.Validator\#validate(java.lang.Object, org.springframework.validation.Errors)
+	 */
+	public void validate(Object target, Errors errors) {
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, FIELD_NAME, ERROR_KEY);
+		
+		${EntityName}Form command = (${EntityName}Form) target;
+		${EntityName} ${entityName} = command.get${EntityName}();
+		if (StringUtils.isNotEmpty(${entityName}.getSomeProperty())){
+			try{
+				errors.rejectValue(FIELD_NAME, ERROR_KEY);
+			}catch (Exception e){
+				errors.rejectValue(FIELD_NAME, ERROR_KEY_VALIDATION);
+			}
+		}
+	}
+	
+	public void setErrorAtException(Errors errors, String messageKey){
+		errors.rejectValue(FIELD_NAME, messageKey);
+	}
+}

@@ -1,0 +1,242 @@
+package ${basePackage}.controller;
+
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_ERROR_ELIMINAR;
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_ERROR_CREAR;
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_ERROR_ACTUALIZAR;
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_ERROR_GET;
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_ERROR_NOT_FOUND;
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_ERROR_NO_EXISTE;
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_SUCCESS_CREAR;
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_SUCCESS_ELIMINAR;
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_SUCCESS_ACTUALIZAR;
+import static ${basePackage}.model.${constantName}.${ENTITY_NAME}_ERROR_PARAM;
+import static ${basePackage}.model.${constantName}.VIEW_${ENTITY_NAME}_FORM;
+import static ${basePackage}.model.${constantName}.VIEW_${ENTITY_NAME}_LISTAR;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import ${basePackage}.form.${EntityName}Form;
+import ${basePackage}.model.${EntityName};
+import ${basePackage}.model.exception.ControllerException;
+import ${basePackage}.model.exception.${ExceptionClass};
+import ${basePackage}.model.constant.FormAcciones;
+import ${basePackage}.service.${EntityName}BO;
+import ${basePackage}.validator.${EntityName}Validator;
+
+@Controller
+public class ${EntityName}Controller extends BasicController {
+	
+	private static Log log = LogFactory.getLog(${EntityName}Controller.class);
+	
+	@Autowired
+	private ${EntityName}BO ${entityName}BO;
+	
+	@Autowired
+	private ${EntityName}Validator ${entityName}Validator;	
+		
+	@RequestMapping(value="/**/web/listar${EntityName}.do")
+	public ModelAndView crear${EntityName}(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") ${EntityName}Form command) throws Exception {
+		log.info("${s}${s}${s} INICIAR crear${EntityName}.do ${s}${s}${s}");
+		ModelAndView listModelView = this.nextModelView(VIEW_${ENTITY_NAME}_LISTAR, command, FormAcciones.LISTAR);
+		log.info("${s}${s}${s} END crear${EntityName}s.do ${s}${s}${s}");
+		return listModelView;
+	}
+	
+	@RequestMapping(value = "/**/web/eliminar${EntityName}.do")
+	public ModelAndView eliminar${EntityName}(HttpServletRequest request, HttpServletResponse response,  @ModelAttribute("command") ${EntityName}Form command, @RequestParam(value = "${entityName}Id", required=true)String ${entityName}IdStr) throws Exception {
+		log.info("${s}${s}${s} INICIAR eliminar${EntityName}.do ${s}${s}${s}");
+		command.setAction(FormAcciones.ELIMINAR.toString());
+		${EntityName} ${entityName} = command.get${EntityName}();	
+		boolean errorOnAction = true;
+		String errorPropertyKey = "";
+
+		if (${entityName} != null){
+			try {
+				errorOnAction = false;
+				this.${entityName}BO.delete(${entityName});
+			} catch (Exception e) {
+				log.error("Error trying to eliminar ${EntityName}");
+				errorPropertyKey = ${ENTITY_NAME}_ERROR_ELIMINAR;
+			}
+		}else{
+			errorPropertyKey = ${ENTITY_NAME}_ERROR_NO_EXISTE;
+		}
+		
+		if (errorOnAction){
+			String errorMessage = this.propertyMessageBO.getMessageFromProperties(errorPropertyKey);
+			command.getMessageAndRedirect().setErrorMessage(errorMessage);
+		}else{
+			String successMessage = this.propertyMessageBO.getMessageFromProperties(${ENTITY_NAME}_SUCCESS_ELIMINAR);
+			command.getMessageAndRedirect().setSuccessMessage(successMessage);
+		}
+		//After the process shows the listar refreshed
+		ModelAndView listModelView = this.nextModelView(VIEW_${ENTITY_NAME}_LISTAR, command, FormAcciones.ELIMINAR);
+		log.info("${s}${s}${s} END eliminar${EntityName}.do ${s}${s}${s}");
+		return listModelView;
+	}			
+	
+	//Get method for Create ${EntityName}
+	@RequestMapping(value = "/**/web/crear${EntityName}.do", method = RequestMethod.GET)
+	public ModelAndView crear${EntityName}Get(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") ${EntityName}Form command) throws Exception{
+		log.info("${s}${s}${s} INICIAR crear${EntityName}Get.do GET ${s}${s}${s}");
+		ModelAndView formModelView = this.nextModelView(VIEW_${ENTITY_NAME}_FORM, command, FormAcciones.CREAR);
+		log.info("${s}${s}${s} FINALIZAR crear${EntityName}Get.do GET ${s}${s}${s}");
+		return formModelView;
+	}
+
+	//Post method for Create ${EntityName}
+	@RequestMapping(value = "/**/web/crear${EntityName}.do", method = RequestMethod.POST)
+	public String crear${EntityName}Post(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") ${EntityName}Form command, BindingResult result) throws Exception {
+		log.info("${s}${s}${s} INICIAR crear${EntityName}Get.do POST ${s}${s}${s}");
+		String nextView = this.postMethodProcess(command, result);
+		log.info("${s}${s}${s} FINALIZAR crear${EntityName}Get.do POST ${s}${s}${s}");
+		return nextView;
+	}
+	
+	//Get method for Modify ${EntityName}
+	@RequestMapping(value = "/**/web/modificar${EntityName}.do", method = RequestMethod.GET)
+	public ModelAndView modificar${EntityName}Get(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") ${EntityName}Form command, @RequestParam(value = "${entityName}Id", required=true)String ${entityName}IdStr) throws Exception{
+		log.info("${s}${s}${s} INICIAR modificar${EntityName}.do GET ${s}${s}${s}");
+		//Get the ${EntityName} and populates the form
+		${EntityName} ${entityName} = this.get${EntityName}FormParamater(${entityName}IdStr);			
+		command.set${EntityName}(${entityName});
+		ModelAndView formModelView = this.nextModelView(VIEW_${ENTITY_NAME}_FORM, command, FormAcciones.ACTUALIZAR);
+		log.info("${s}${s}${s} FINALIZAR modificar${EntityName}.do GET ${s}${s}${s}");
+		return formModelView;
+	}
+	
+	//Post method for Modify ${EntityName}
+	@RequestMapping(value = "/**/web/modificar${EntityName}.do", method = RequestMethod.POST)
+	public String modificar${EntityName}Post(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") ${EntityName}Form command, BindingResult result) throws Exception {
+		log.info("${s}${s}${s} INICIAR modificar${EntityName}.do POST ${s}${s}${s}");
+		String nextView = this.postMethodProcess(command, result);
+		log.info("${s}${s}${s} FINALIZAR modificar${EntityName}.do POST ${s}${s}${s}");
+		return nextView;
+	}	
+	
+	/**
+	 * Converts String parameter into numeric id
+	 * @param ${entityName}IdStr
+	 * @return
+	 * @throws ControllerException
+	 */
+	private int getIdDesdeParametro(String ${entityName}IdStr) throws ControllerException {
+		try {
+			return Integer.parseInt(${entityName}IdStr);
+		} catch (NumberFormatException e) {
+			throw new ControllerException(${ENTITY_NAME}_ERROR_PARAM);
+		}
+	}
+	
+	/**
+	 * Get ${EntityName} for database and handle it if null
+	 * @param ${entityName}IdStr
+	 * @return
+	 * @throws ControllerException
+	 */
+	private ${EntityName} get${EntityName}FormParamater(String ${entityName}IdStr) throws ControllerException  {
+		try {
+			int id = this.getIdDesdeParametro(${entityName}IdStr);
+			${EntityName} ${entityName} = this.${entityName}BO.get${EntityName}ById(id);
+			if (${entityName} == null) {
+				throw new ControllerException(${ENTITY_NAME}_ERROR_NOT_FOUND);
+			}
+			return ${entityName};
+		} catch (${ExceptionClass} e) {
+			throw new ControllerException(${ENTITY_NAME}_ERROR_GET);
+		}
+	}
+	
+	/**
+	 * Load drop down options
+	 * @param command
+	 */
+	private void setDropDownValues(${EntityName}Form command){
+		try {
+			//TODO add code here to get dropdowns
+		} catch (Exception e) {
+			log.error("Error loading drop down values", e);
+		}
+	}
+	
+	
+	/**
+	 * Process the request according the action, validates the data and process the information into the database
+	 * @param command
+	 * @param result
+	 * @return
+	 */
+	private String postMethodProcess(${EntityName}Form command, BindingResult result) {
+		boolean errorOnPost=false;
+		String nextView = VIEW_${ENTITY_NAME}_FORM;
+		String message = "";
+		command.getMessageAndRedirect().cleanMsgValue(); //Cleans message and redirect info
+		this.setDropDownValues(command); //Loads the drop down lists
+		this.${entityName}Validator.validate(command, result); //validates the form
+		if (result.hasErrors()) {
+			errorOnPost = true;
+		} else {
+			String logEntryOnError = "";
+			String errorPropertyKey = "";
+			String successPropertyKey = "";
+			FormAcciones actionType = FormAcciones.getAccionByDesc(command.getAction());
+			try {				
+				//Process insert
+				if (actionType == FormAcciones.CREAR){
+					logEntryOnError = "Error trying to insert new ${EntityName} Page";
+					errorPropertyKey = ${ENTITY_NAME}_ERROR_CREAR;
+					successPropertyKey = ${ENTITY_NAME}_SUCCESS_CREAR;
+					this.${entityName}BO.save(command.get${EntityName}());
+				}		
+				//Process update
+				if (actionType == FormAcciones.ACTUALIZAR){
+					logEntryOnError = "Error trying to update the ${EntityName} Page";
+					errorPropertyKey = ${ENTITY_NAME}_ERROR_ACTUALIZAR;
+					successPropertyKey = ${ENTITY_NAME}_SUCCESS_ACTUALIZAR;
+					this.${entityName}BO.update(command.get${EntityName}()); 
+				}
+			}catch(Exception e){
+				log.error(logEntryOnError, e);
+				errorOnPost = true;
+				this.${entityName}Validator.setErrorAtException(result, errorPropertyKey);
+			}
+
+			if (!errorOnPost){
+				message = this.propertyMessageBO.getMessageFromProperties(successPropertyKey);
+				command.getMessageAndRedirect().setSuccessMessage(message);//Set success message
+			}			
+		}			
+		return nextView;
+	}
+	
+	/**
+	 * Redirect to the indicated view and loads the command
+	 * @param viewName
+	 * @param command
+	 * @param actionType
+	 * @return
+	 */
+	private ModelAndView nextModelView(String viewName, ${EntityName}Form command, FormAcciones actionType){
+		ModelAndView formModelView = new ModelAndView(viewName);		
+		command.setAction(actionType.toString());
+		
+		//TODO when required...
+		this.setDropDownValues(command);
+		
+		formModelView.setViewName(viewName);
+		formModelView.addObject("command", command);
+		return formModelView;
+	}
+}

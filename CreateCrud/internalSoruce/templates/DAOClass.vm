@@ -1,0 +1,87 @@
+/**
+ * 
+ */
+package ${basePackage}.dao.impl;
+
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+
+import ${basePackage}.dao.AbstractDAO;
+import ${basePackage}.dao.${EntityName}DAO;
+import ${basePackage}.model.${EntityName};
+import ${basePackage}.model.exception.GeaWebException;
+
+/**
+ * @author mchavarria
+ *
+ */
+@Repository
+public class ${EntityName}DAOImpl extends AbstractDAO implements ${EntityName}DAO {
+	
+	/**
+	 * 
+	 * @see ${basePackage}.dao.${EntityName}DAO{s}save(${basePackage}.model.${EntityName})
+	 */
+	@Override
+	public void save(${EntityName} ${entityName}) throws GeaWebException {
+		super.save(${entityName});
+	}
+
+	/**
+	 * 
+	 * @see ${basePackage}.dao.${EntityName}DAO{s}update(${basePackage}.model.${EntityName})
+	 */
+	@Override
+	public void update(${EntityName} ${entityName}) throws GeaWebException {
+		super.update(${entityName});
+	}
+
+	/**
+	 * 
+	 * @see ${basePackage}.dao.${EntityName}DAO{s}delete(${basePackage}.model.${EntityName})
+	 */
+	@Override
+	public void delete(${EntityName} ${entityName}) throws GeaWebException {
+		super.delete(${entityName});
+	}
+
+	/**
+	 * 
+	 * @see ${basePackage}.dao.${EntityName}DAO{s}get${EntityName}ById(int)
+	 */
+	@Override
+	public ${EntityName} get${EntityName}ById(int ${entityName}Id) throws GeaWebException {
+		/*CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<${EntityName}> criteria = builder.createQuery(${EntityName}.class);
+		Root<${EntityName}> root = criteria.from(${EntityName}.class);
+		criteria.select(root);
+		criteria.where(builder.equal(root.get(${EntityName}_.${entityName}Id), ${entityName}Id));
+
+		List<${EntityName}> lista${EntityName}es = entityManager.createQuery(criteria).getResultList();
+
+		${EntityName} ${entityName} = null;
+		if (!lista${EntityName}es.isEmpty()) {
+			${entityName} = lista${EntityName}es.iterator().next();
+		}
+		return ${entityName};*/
+		return null;
+	}
+
+	/**
+	 * 
+	 * @see ${basePackage}.dao.${EntityName}DAO{s}list${EntityName}()
+	 */
+	@Override
+	public List<${EntityName}> list${EntityName}() throws GeaWebException {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<${EntityName}> criteria = builder.createQuery(${EntityName}.class);
+		Root<${EntityName}> root = criteria.from(${EntityName}.class);
+		criteria.select(root);
+		return entityManager.createQuery(criteria).getResultList();		
+	}
+}
